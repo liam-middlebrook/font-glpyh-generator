@@ -188,3 +188,7 @@ FakesAssemblies/
 
 # Intermediate Object Files
 *.o
+
+glyphgen
+
+mybitmap.bmp
