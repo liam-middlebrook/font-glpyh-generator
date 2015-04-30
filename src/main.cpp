@@ -59,6 +59,9 @@ int main(int argc, char** argv)
             }
         }
 
+        double x = (id % tileCount) * tileSize;
+        double y = (id / tileCount) * tileSize;
+
         writer.StartObject();
         {
             writer.String("id");
@@ -67,25 +70,45 @@ int main(int argc, char** argv)
             writer.String((const char*)&c);
             writer.String("metrics");
             writer.StartObject();
-            writer.String("width");
-            writer.Int(metrics.width / 64);
-            writer.String("height");
-            writer.Int(metrics.height / 64);
-            writer.String("horiBearingX");
-            writer.Int(metrics.horiBearingX / 64);
-            writer.String("horiBearingY");
-            writer.Int(metrics.horiBearingY / 64);
-            writer.String("horiAdvance");
-            writer.Int(metrics.horiAdvance / 64);
-            writer.String("vertBearingX");
-            writer.Int(metrics.vertBearingX / 64);
-            writer.String("vertBearingY");
-            writer.Int(metrics.vertBearingY / 64);
-            writer.String("vertAdvance");
-            writer.Int(metrics.vertAdvance / 64);
+            {
+                writer.String("width");
+                writer.Int(metrics.width / 64);
+                writer.String("height");
+                writer.Int(metrics.height / 64);
+                writer.String("horiBearingX");
+                writer.Int(metrics.horiBearingX / 64);
+                writer.String("horiBearingY");
+                writer.Int(metrics.horiBearingY / 64);
+                writer.String("horiAdvance");
+                writer.Int(metrics.horiAdvance / 64);
+                writer.String("vertBearingX");
+                writer.Int(metrics.vertBearingX / 64);
+                writer.String("vertBearingY");
+                writer.Int(metrics.vertBearingY / 64);
+                writer.String("vertAdvance");
+                writer.Int(metrics.vertAdvance / 64);
+            }
+            writer.EndObject();
+            writer.String("uv");
+            writer.StartArray();
+            writer.StartArray();
+            writer.Double(x / 4096.0);
+            writer.Double((y - metrics.height / 64) / 4096.0);
+            writer.EndArray();
+            writer.StartArray();
+            writer.Double(x / 4096.0);
+            writer.Double(y / 4096.0);
+            writer.EndArray();
+            writer.StartArray();
+            writer.Double((x + metrics.width / 64) / 4096.0);
+            writer.Double(y / 4096.0);
+            writer.EndArray();
+            writer.StartArray();
+            writer.Double((x + metrics.width / 64) / 4096.0);
+            writer.Double((y - metrics.height / 64) / 4096.0);
+            writer.EndArray();
+            writer.EndArray();
         }
-        writer.EndObject();
-
         writer.EndObject();
     }
 
