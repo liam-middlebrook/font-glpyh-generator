@@ -18,11 +18,11 @@ int main(int argc, char** argv)
         return 1;
     }
     std::string filename(argv[1]);
-    const size_t last_slash_idx = filename.find_last_of("\\/");
-    if (std::string::npos != last_slash_idx)
-    {
-        filename.erase(0, last_slash_idx + 1);
-    }
+const size_t last_slash_idx = filename.find_last_of("\\/");
+if (std::string::npos != last_slash_idx)
+{
+    filename.erase(0, last_slash_idx + 1);
+}
 
     // Remove extension if present.
     const size_t period_idx = filename.rfind('.');
@@ -136,9 +136,9 @@ int main(int argc, char** argv)
 
     fclose(fp);
 
-    if (FreeImage_Save(FIF_BMP, bitmap, "font.bmp", BMP_DEFAULT))
+    if (FreeImage_Save(FIF_PNG, bitmap, (filename + ".png").c_str(), BMP_DEFAULT))
     {
-        printf("Saved file to font.bmp\n");
+        printf("Saved file to %s\n", (filename + ".png").c_str());
     }
 
     FreeImage_Unload(bitmap);
