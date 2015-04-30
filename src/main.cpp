@@ -8,6 +8,8 @@
 #include FT_FREETYPE_H
 #define UNUSED (void)
 
+#include <string>
+
 int main(int argc, char** argv)
 {
     if(argc < 2)
@@ -15,10 +17,23 @@ int main(int argc, char** argv)
         printf("Error! No Font Specified!\n");
         return 1;
     }
+    std::string filename(argv[1]);
+    const size_t last_slash_idx = filename.find_last_of("\\/");
+    if (std::string::npos != last_slash_idx)
+    {
+        filename.erase(0, last_slash_idx + 1);
+    }
 
+    // Remove extension if present.
+    const size_t period_idx = filename.rfind('.');
+    if (std::string::npos != period_idx)
+    {
+         filename.erase(period_idx);
+    }
 
     FIBITMAP* bitmap = FreeImage_Allocate(4096, 4096, 32);
 
+    FreeImage_SetTransparent(bitmap, true);
     FT_Library library;
 
     FT_Init_FreeType(&library);
@@ -115,7 +130,7 @@ int main(int argc, char** argv)
     writer.EndArray();
     writer.EndObject();
 
-    FILE* fp = fopen("glyphs.json", "w");
+    FILE* fp = fopen((filename + ".json").c_str(), "w");
 
     fputs(s.GetString(), fp);
 
