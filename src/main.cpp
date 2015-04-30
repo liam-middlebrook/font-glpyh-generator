@@ -40,6 +40,7 @@ int main(int argc, char** argv)
 
         FT_Bitmap bmp = face->glyph->bitmap;
 
+        FT_Glyph_Metrics metrics = face->glyph->metrics;
         //printf("w: %d h: %d\n", bmp.width, bmp.rows);
         //printf("w: %d h: %d\n", face->glyph->bitmap_left, face->glyph->bitmap_top);
 
@@ -61,6 +62,25 @@ int main(int argc, char** argv)
         writer.Uint(c);
         writer.String("char");
         writer.String((const char*)&c);
+        writer.String("metrics");
+        writer.StartObject();
+        writer.String("width");
+        writer.Int(metrics.width/64);
+        writer.String("height");
+        writer.Int(metrics.height/64);
+        writer.String("horiBearingX");
+        writer.Int(metrics.horiBearingX/64);
+        writer.String("horiBearingY");
+        writer.Int(metrics.horiBearingY/64);
+        writer.String("horiAdvance");
+        writer.Int(metrics.horiAdvance/64);
+        writer.String("vertBearingX");
+        writer.Int(metrics.vertBearingX/64);
+        writer.String("vertBearingY");
+        writer.Int(metrics.vertBearingY/64);
+        writer.String("vertAdvance");
+        writer.Int(metrics.vertAdvance/64);
+        writer.EndObject();
 
         writer.EndObject();
     }
